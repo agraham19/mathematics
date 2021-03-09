@@ -8,6 +8,10 @@ steps:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
 
+platform:
+  os: linux
+  arch: arm64
+
 trigger:
   branch:
   - main

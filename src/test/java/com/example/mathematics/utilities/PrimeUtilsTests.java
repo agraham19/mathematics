@@ -3,22 +3,25 @@ package com.example.mathematics.utilities;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 @SpringBootTest
 public class PrimeUtilsTests {
 
     @Test
-    public void findPrimesUpTo_shouldReturnCorrectValues_97() {
-        int[] actual = PrimeUtils.findPrimesUpTo(100);
+    public void findPrimesUpTo_shouldReturnCorrectResult_97() {
+        int[] actual = PrimeUtils.findPrimesUpTo(100).getResult();
         int[] expected = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
 
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void findPrimesUpTo_shouldReturnCorrectValues_100() {
-        int[] actual = PrimeUtils.findPrimesUpTo(100);
+    public void findPrimesUpTo_shouldReturnCorrectResult_100() {
+        int[] actual = PrimeUtils.findPrimesUpTo(100).getResult();
         int[] expected = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
 
         assertArrayEquals(expected, actual);
@@ -26,8 +29,8 @@ public class PrimeUtilsTests {
     }
 
     @Test
-    public void findPrimesUpTo_shouldReturnCorrectValues_996() {
-        int[] actual = PrimeUtils.findPrimesUpTo(996);
+    public void findPrimesUpTo_shouldReturnCorrectResult_996() {
+        int[] actual = PrimeUtils.findPrimesUpTo(996).getResult();
         int[] expected = {
                 2,   3,   5,   7,  11,  13,  17,  19,  23,  29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,  79,  83,
                 89,  97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
@@ -44,8 +47,8 @@ public class PrimeUtilsTests {
     }
 
     @Test
-    public void findPrimesUpTo_shouldReturnCorrectValues_1000() {
-        int[] actual = PrimeUtils.findPrimesUpTo(1000);
+    public void findPrimesUpTo_shouldReturnCorrectResult_1000() {
+        int[] actual = PrimeUtils.findPrimesUpTo(1000).getResult();
         int[] expected = {
                   2,   3,   5,   7,  11,  13,  17,  19,  23,  29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,  79,  83,
                  89,  97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
@@ -58,7 +61,22 @@ public class PrimeUtilsTests {
         };
 
         assertArrayEquals(expected, actual);
+    }
 
+    @Test
+    public void findPrimesUpTo_shouldReturnCorrectSteps_11() {
+        List<boolean[]> actual = PrimeUtils.findPrimesUpTo(17).getSteps();
+        List<boolean[]> expected = List.of(
+                new boolean[] {false, false, true, true, true,  true, true,  true, true,  true,  true,  true, true,  true, true,  true,  true, true},
+                new boolean[] {false, false, true, true, false, true, false, true, false, true,  false, true, false, true, false, true,  false, true},
+                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true},
+                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true},
+                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true}
+                );
+
+        IntStream.range(0, actual.size()).forEach(i -> {
+                assertArrayEquals(actual.get(i), expected.get(i));
+        });
     }
 }
 

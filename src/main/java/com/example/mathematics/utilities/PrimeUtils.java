@@ -1,8 +1,6 @@
 package com.example.mathematics.utilities;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PrimeUtils {
@@ -19,13 +17,18 @@ public class PrimeUtils {
         boolean[] isPrime = new boolean[upper + 1];
         Arrays.fill(isPrime, Boolean.TRUE);
 
-        for(int i = 2; i <= Math.sqrt(upper); i++) {
+
+        int squareRootOfUpperRoundedUp = (int) Math.ceil(Math.sqrt(upper));
+
+        IntStream.rangeClosed(2, squareRootOfUpperRoundedUp).forEach(i -> {
             if(isPrime[i]) {
                 for(int j = i * i; j <= upper; j+=i) {
                     isPrime[j] = false;
                 }
+                IntStream.iterate(i * i, current -> current <= upper, next -> next + i)
+                        .parallel().forEach((current -> isPrime[current] = false));
             }
-        }
+        });
 
         return IntStream.rangeClosed(2, upper).filter(i -> isPrime[i]).toArray();
     }

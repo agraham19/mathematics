@@ -48,6 +48,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>mathematics</finalName>
     </build>
 
 </project>

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 public class SieveSteps {
     private final List<boolean[]> steps;
-    int[] result;
+    private final int[] result;
 
     public SieveSteps(List<boolean[]> steps, int[] result) {
         this.steps = steps;

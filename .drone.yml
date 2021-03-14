@@ -17,6 +17,7 @@ steps:
       from_secret: docker_password
     repo: 192.168.0.50:5000/mathematics
     registry: https://192.168.0.50:5000
+    insecure: true # get signed cert and remove this | this is only used on local network at the moment
 
 platform:
   os: linux

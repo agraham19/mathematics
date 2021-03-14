@@ -16,7 +16,7 @@ steps:
     password:
       from_secret: docker_password
     repo: 192.168.0.50:5000/mathematics
-    registry: 192.168.0.50:5000
+    registry: https://192.168.0.50:5000
 
 platform:
   os: linux

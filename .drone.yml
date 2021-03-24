@@ -15,9 +15,8 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    repo: 192.168.0.50:5000/mathematics_arm
-    registry: https://192.168.0.50:5000
-    insecure: true # get signed cert and remove this | this is only used on local network at the moment
+    repo: cabbage.world:5000/mathematics
+    registry: https://cabbage.world:5000
 
 platform:
   os: linux

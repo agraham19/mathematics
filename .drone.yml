@@ -7,7 +7,7 @@ steps:
   image: maven:3-jdk-11
   commands:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-#  - mvn test -B
+  - mvn test -B
 - name: docker
   image: plugins/docker
   settings:
@@ -17,6 +17,8 @@ steps:
       from_secret: docker_password
     repo: cabbage.world:5000/mathematics
     registry: cabbage.world:5000
+    custom_dns: [ 192.168.0.51 ]
+
 
 platform:
   os: linux

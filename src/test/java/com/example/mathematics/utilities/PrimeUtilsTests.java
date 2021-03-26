@@ -1,5 +1,6 @@
 package com.example.mathematics.utilities;
 
+import com.example.mathematics.models.SieveSteps;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,24 +14,24 @@ public class PrimeUtilsTests {
 
     @Test
     public void findPrimesUpTo_shouldReturnCorrectResult_97() {
-        int[] actual = PrimeUtils.findPrimesUpTo(100).getResult();
+        List<int[]> actual = PrimeUtils.sieveUpTo(100).getSteps();
         int[] expected = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
 
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(expected, actual.get(actual.size() - 1));
     }
 
     @Test
     public void findPrimesUpTo_shouldReturnCorrectResult_100() {
-        int[] actual = PrimeUtils.findPrimesUpTo(100).getResult();
+        List<int[]> actual = PrimeUtils.sieveUpTo(100).getSteps();
         int[] expected = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
 
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(expected, actual.get(actual.size() - 1));
 
     }
 
     @Test
     public void findPrimesUpTo_shouldReturnCorrectResult_996() {
-        int[] actual = PrimeUtils.findPrimesUpTo(996).getResult();
+        List<int[]> actual = PrimeUtils.sieveUpTo(996).getSteps();
         int[] expected = {
                 2,   3,   5,   7,  11,  13,  17,  19,  23,  29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,  79,  83,
                 89,  97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
@@ -42,13 +43,13 @@ public class PrimeUtilsTests {
                 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991
         };
 
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(expected, actual.get(actual.size() - 1));
 
     }
 
     @Test
     public void findPrimesUpTo_shouldReturnCorrectResult_1000() {
-        int[] actual = PrimeUtils.findPrimesUpTo(1000).getResult();
+        List<int[]> actual = PrimeUtils.sieveUpTo(1000).getSteps();
         int[] expected = {
                   2,   3,   5,   7,  11,  13,  17,  19,  23,  29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,  79,  83,
                  89,  97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
@@ -60,18 +61,18 @@ public class PrimeUtilsTests {
                 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997
         };
 
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(expected, actual.get(actual.size() - 1));
     }
 
     @Test
-    public void findPrimesUpTo_shouldReturnCorrectSteps_11() {
-        List<boolean[]> actual = PrimeUtils.findPrimesUpTo(17).getSteps();
-        List<boolean[]> expected = List.of(
-                new boolean[] {false, false, true, true, true,  true, true,  true, true,  true,  true,  true, true,  true, true,  true,  true, true},
-                new boolean[] {false, false, true, true, false, true, false, true, false, true,  false, true, false, true, false, true,  false, true},
-                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true},
-                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true},
-                new boolean[] {false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true}
+    public void findPrimesUpTo_shouldReturnCorrectSteps_17() {
+        List<int[]> actual = PrimeUtils.sieveUpTo(17).getSteps();
+        List<int[]> expected = List.of(
+                new int[] {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17},
+                new int[] {2, 3, 5, 7, 9, 11, 13, 15, 17},
+                new int[] {2, 3, 5, 7, 11, 13, 17},
+                new int[] {2, 3, 5, 7, 11, 13, 17},
+                new int[] {2, 3, 5, 7, 11, 13, 17}
                 );
 
         IntStream.range(0, actual.size()).forEach(i -> {

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SieveController {
     @GetMapping(value = "/find_primes_up_to/{limit}")
     public SieveStepsDto findPrimesUpTo(@PathVariable int limit) {
-        return new SieveStepsDto(PrimeUtils.findPrimesUpTo(limit));
+        return new SieveStepsDto(PrimeUtils.sieveUpTo(limit));
     }
 }

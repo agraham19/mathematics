@@ -1,11 +1,12 @@
 package com.example.mathematics.utilities;
 
+import com.example.mathematics.models.SieveSteps;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import com.example.mathematics.models.SieveSteps;
 
 public class PrimeUtils {
 
@@ -17,7 +18,7 @@ public class PrimeUtils {
      * @param upper The upper bound
      * @return an array of all primes lesser than or equal to the upper bound
      */
-    public static SieveSteps findPrimesUpTo(int upper) {
+    public static SieveSteps sieveUpTo(int upper) {
         boolean[] isPrime = new boolean[upper + 1];
         Arrays.fill(isPrime, Boolean.TRUE);
 
@@ -38,8 +39,8 @@ public class PrimeUtils {
             steps.add(Arrays.copyOf(isPrime, isPrime.length)); // add step
         });
 
-        final int[] result = IntStream.rangeClosed(2, upper).filter(i -> isPrime[i]).toArray();
-
-        return new SieveSteps(steps, result);
+        return new SieveSteps(steps.stream()
+                .map(step -> IntStream.rangeClosed(2, step.length - 1).filter(i -> step[i]).toArray())
+                .collect(Collectors.toList()));
     }
 }

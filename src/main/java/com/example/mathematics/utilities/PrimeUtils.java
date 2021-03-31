@@ -1,6 +1,6 @@
 package com.example.mathematics.utilities;
 
-import com.example.mathematics.models.SieveSteps;
+import com.example.mathematics.models.SieveStep;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,29 +18,43 @@ public class PrimeUtils {
      * @param upper The upper bound
      * @return an array of all primes lesser than or equal to the upper bound
      */
-    public static SieveSteps sieveUpTo(int upper) {
+    public static List<SieveStep> sieveUpTo(int upper) {
         boolean[] isPrime = new boolean[upper + 1];
         Arrays.fill(isPrime, Boolean.TRUE);
 
-        isPrime[0] = isPrime[1] = false;
-
-        List<boolean[]> steps = new ArrayList<>();
+        List<SieveStep> steps = new ArrayList<>();
 
         int squareRootOfUpperRoundedUp = (int) Math.ceil(Math.sqrt(upper));
 
-        steps.add(Arrays.copyOf(isPrime, isPrime.length)); // add first step
+        isPrime[0] = false;
+
+        steps.add(new SieveStep(candidateBooleansToInts(isPrime))); // add first step
+
+        isPrime[1] = false;
+
+        steps.add(new SieveStep(candidateBooleansToInts(isPrime), List.of(1), 1)); // add second step
 
         IntStream.rangeClosed(2, squareRootOfUpperRoundedUp).forEach(i -> {
             if(isPrime[i]) {
-                IntStream.iterate(i * i, current -> current <= upper, next -> next + i)
-                        .parallel().forEach((current -> isPrime[current] = false));
-            }
+                ArrayList filtered = new ArrayList();
 
-            steps.add(Arrays.copyOf(isPrime, isPrime.length)); // add step
+                IntStream.iterate(i * i, current -> current <= upper, next -> next + i)
+                        .parallel().forEach((current -> {
+                            if (isPrime[current]) {
+                                filtered.add(current);
+                            }
+                            isPrime[current] = false;
+                }));
+
+                steps.add(new SieveStep(candidateBooleansToInts(isPrime), filtered, i)); // add step
+            }
         });
 
-        return new SieveSteps(steps.stream()
-                .map(step -> IntStream.rangeClosed(2, step.length - 1).filter(i -> step[i]).toArray())
-                .collect(Collectors.toList()));
+        return steps;
+    }
+
+    public static List<Integer> candidateBooleansToInts(boolean[] candidates) {
+        return IntStream.rangeClosed(1, candidates.length - 1)
+                .filter(i -> candidates[i]).boxed().collect(Collectors.toList());
     }
 }
